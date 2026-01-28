@@ -1,0 +1,14 @@
+{
+  "name": "360°",
+  "short_name": "360°",
+  "start_url": "./",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "360.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
