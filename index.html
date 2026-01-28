@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>360&deg;</title>
+  <link rel="icon" href="ico.jpg">
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  <style>
+    .a-modal {
+      display: none!important;
+    }
+  </style>
+</head>
+<body>
+  <a-scene id="scene" device-orientation-permission-ui="enabled: false">
+    <a-assets>
+      <img id="e" src="room/e-480.jpg">
+    </a-assets>
+    <a-sky id="sky" src="#e" phi-start="0"></a-sky>
+    <a-entity id="mainCamera" camera="zoom: 0.8" look-controls="reverseMouseDrag: true; magicWindowTrackingEnabled: false;">
+    </a-entity>
+
+    <a-entity id="hotspots" rotation="0 0 0">
+    <!-- Entrance -->
+    <a-cone id="e_k" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="2 -1.3 -2.5"
+      data-target="#k"
+      target-phi-start="265"
+      data-visible-on="#e">
+    </a-cone>
+    <a-cone id="e_l" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.5"
+      position="5 -1.5 1.9"
+      data-target="#l"
+      target-phi-start="28"
+      data-visible-on="#e">
+    </a-cone>
+    <a-cone id="e_c" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="2.3 -1.7 2.5"
+      data-target="#c"
+      target-phi-start="-2"
+      data-visible-on="#e">
+    </a-cone>
+    <a-cone id="e_d" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="0.8 -1.4 4.5"
+      data-target="#d"
+      target-phi-start="73"
+      data-visible-on="#e">
+    </a-cone>
+    <a-cone id="e_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3" rotation="0 -40 10"
+      position="4.3 -1 4.6"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#e">
+    </a-cone>
+    <!-- Entrance -->
+
+    <!-- Kitchen -->
+    <a-cone id="k_e" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-2.1 -1.5 -2.6"
+      data-target="#e"
+      target-phi-start="0"
+      data-visible-on="#k">
+    </a-cone>
+    <!-- Kitchen -->
+
+    <!-- Living -->
+    <a-cone id="l_d" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-2.3 -2 7"
+      data-target="#d"
+      target-phi-start="75"
+      data-visible-on="#l">
+    </a-cone>
+    <a-cone id="l_c" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-1 -2 3"
+      data-target="#c"
+      target-phi-start="-2"
+      data-visible-on="#l">
+    </a-cone>
+    <a-cone id="l_e" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-6 -2 1.9"
+      data-target="#e"
+      target-phi-start="0"
+      data-visible-on="#l">
+    </a-cone>
+    <a-cone id="l_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="3.1 -1.3 4.5"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#l">
+    </a-cone>
+    <!-- Living -->
+
+    <!-- Center -->
+    <a-cone id="c_e" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-3.2 -1.5 -3.5"
+      data-target="#e"
+      target-phi-start="2"
+      data-visible-on="#c">
+    </a-cone>
+    <a-cone id="c_l" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="3 -1.5 -2"
+      data-target="#l"
+      target-phi-start="28"
+      data-visible-on="#c">
+    </a-cone>
+    <a-cone id="c_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="2.3 -1 2.8"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#c">
+    </a-cone>
+    <a-cone id="c_d" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-3 -1.5 2"
+      data-target="#d"
+      target-phi-start="71"
+      data-visible-on="#c">
+    </a-cone>
+    <!-- Center -->
+
+    <!-- Dining -->
+    <a-cone id="d_e" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-5 -1.7 -1.2"
+      data-target="#e"
+      target-phi-start="0"
+      data-visible-on="#d">
+    </a-cone>
+    <a-cone id="d_l" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-2.2 -1.5 -5.5"
+      data-target="#l"
+      target-phi-start="28"
+      data-visible-on="#d">
+    </a-cone>
+    <a-cone id="d_c" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.4"
+      position="-1.2 -2 -3.5"
+      data-target="#c"
+      target-phi-start="0"
+      data-visible-on="#d">
+    </a-cone>
+    <a-cone id="d_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="2 -1.4 -4.3"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#d">
+    </a-cone>
+    <!-- Dining -->
+
+    <!-- Corridor -->
+    <a-cone id="cor_e" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-4.8 -0.8 4.5"
+      data-target="#e"
+      target-phi-start="2"
+      data-visible-on="#cor">
+    </a-cone>
+    <a-cone id="cor_c" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-3 -1.5 3"
+      data-target="#c"
+      target-phi-start="0"
+      data-visible-on="#cor">
+    </a-cone>
+    <a-cone id="cor_r1" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.4"
+      position="-2.5 -1.3 -3"
+      data-target="#r1"
+      target-phi-start="93"
+      data-visible-on="#cor">
+    </a-cone>
+    <a-cone id="cor_m" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="0 -1.5 -2.5"
+      data-target="#m"
+      target-phi-start="-5"
+      data-visible-on="#cor">
+    </a-cone>
+    <a-cone id="cor_r2" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="2 -1.2 0.5"
+      data-target="#r2"
+      target-phi-start="-160"
+      data-visible-on="#cor">
+    </a-cone>
+    <a-cone id="cor_t" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="2 -1.5 2.1"
+      data-target="#t"
+      target-phi-start="137"
+      data-visible-on="#cor">
+    </a-cone>
+    <!-- Corridor -->
+
+    <!-- Room1 -->
+    <a-cone id="r1_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="3 -1 2.9"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#r1">
+    </a-cone>
+    <!-- Room1 -->
+
+    <!-- MasterRoom -->
+    <a-cone id="m_mt" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-2.5 -1.5 1.5"
+      data-target="#mt"
+      target-phi-start="140"
+      data-visible-on="#m">
+    </a-cone>
+    <a-cone id="m_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-5 -1.5 -1.8"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#m">
+    </a-cone>
+    <a-cone id="m_mtc1" class="hotspot" radius-top="0" radius-bottom="0.4" transparent="true" color="#fff" opacity="0.3"
+      position="-2.8 2 3"
+      data-target="#mtc1"
+      target-phi-start="230"
+      data-visible-on="#m">
+    </a-cone>
+    <a-cone id="m_mtc2" class="hotspot" radius-top="0" radius-bottom="0.4" transparent="true" color="#fff" opacity="0.3"
+      position="-4 2.1 1.7"
+      data-target="#mtc2"
+      target-phi-start="230"
+      data-visible-on="#m">
+    </a-cone>
+    <!-- MasterRoom -->
+
+    <!-- MasterRoomToilet -->
+    <a-cone id="mt_mtc1" class="hotspot" radius-top="0" radius-bottom="0.25" transparent="true" color="#fff" opacity="0.5" rotation="-10 10 10"
+      position="1 2 -0.8"
+      data-target="#mtc1"
+      target-phi-start="-130"
+      data-visible-on="#mt">
+    </a-cone>
+    <a-cone id="mt_mtc2" class="hotspot" radius-top="0" radius-bottom="0.25" transparent="true" color="#fff" opacity="0.3" rotation="0 10 10"
+      position="1 2 0.5"
+      data-target="#mtc2"
+      target-phi-start="-130"
+      data-visible-on="#mt">
+    </a-cone>
+    <a-cone id="mt_m" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-4 -2 1.5"
+      data-target="#m"
+      target-phi-start="-6"
+      data-visible-on="#mt">
+    </a-cone>
+    <!-- MasterRoomToilet -->
+
+    <!-- MasterRoomToiletCeiling1 -->
+    <a-cone id="mtc1_mtc2" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="3 0.1 0.7"
+      data-target="#mtc2"
+      target-phi-start="-130"
+      data-visible-on="#mtc1">
+    </a-cone>
+    <a-cone id="mtc1_mt" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-1 -2 -1.5"
+      data-target="#mt"
+      target-phi-start="140"
+      data-visible-on="#mtc1">
+    </a-cone>
+    <!-- MasterRoomToiletCeiling1 -->
+
+    <!-- MasterRoomToiletCeiling2 -->
+    <a-cone id="mtc2_mtc1" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.5"
+      position="-3 -0.3 -0.6"
+      data-target="#mtc1"
+      target-phi-start="-130"
+      data-visible-on="#mtc2">
+    </a-cone>
+    <a-cone id="mtc2_mt" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-1 -2 -1.5"
+      data-target="#mt"
+      target-phi-start="140"
+      data-visible-on="#mtc2">
+    </a-cone>
+    <!-- MasterRoomToiletCeiling2 -->
+
+    <!-- Room2 -->
+    <a-cone id="r2_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="3.5 -1 2.5"
+      data-target="#cor"
+      target-phi-start="90"
+      data-visible-on="#r2">
+    </a-cone>
+    <a-cone id="r2_lk" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.8"
+      position="-3.5 0 -1.1"
+      data-target="#lk"
+      target-phi-start="110"
+      data-visible-on="#r2">
+    </a-cone>
+    <!-- Room2 -->
+
+    <!-- Leak -->
+    <a-cone id="lk_r2" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-1 -2.5 3"
+      data-target="#r2"
+      target-phi-start="-160"
+      data-visible-on="#lk">
+    </a-cone>
+    <!-- Leak -->
+
+    <!-- Toilet -->
+    <a-cone id="t_cor" class="hotspot" radius-top="0.4" radius-bottom="0" transparent="true" color="#fff" opacity="0.3"
+      position="-2.5 -1 0.2"
+      data-target="#cor"
+      target-phi-start="92"
+      data-visible-on="#t">
+    </a-cone>
+    <!-- Toilet -->
+    </a-entity>
+  </a-scene>
+
+  <script>
+    const imageCache = {};
+    var minZoom = 0.5;
+    window.addEventListener("wheel", (event) => {
+      // small increments for smoother zooming
+      const delta = event.wheelDelta / 120 / 10;
+      var mycam = document.getElementById("mainCamera").getAttribute("camera");
+      var finalZoom =
+        document.getElementById("mainCamera").getAttribute("camera").zoom + delta;
+
+      // limiting the zoom
+      if (finalZoom < minZoom) finalZoom = minZoom;
+      if (finalZoom > 2) finalZoom = 2;
+      mycam.zoom = finalZoom;
+
+      document.getElementById("mainCamera").setAttribute("camera", mycam);
+    });
+    AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (t) {
+      if (this.touchStarted && this.data.touchEnabled) {
+        this.pitchObject.rotation.x += .6 * Math.PI * (t.touches[0].pageY - this.touchStart.y) / this.el.sceneEl.canvas.clientHeight;
+        this.yawObject.rotation.y += /*  */ Math.PI * (t.touches[0].pageX - this.touchStart.x) / this.el.sceneEl.canvas.clientWidth;
+        this.pitchObject.rotation.x = Math.max(Math.PI / -2, Math.min(Math.PI / 2, this.pitchObject.rotation.x));
+        this.touchStart = {
+          x: t.touches[0].pageX,
+          y: t.touches[0].pageY
+        }
+      }
+    }
+  </script>
+  <script>
+    // Helper to show/hide hotspots based on current sky src
+    function updateHotspots(currentSkyId, phiStart="0") {
+      const hotspots = Array.from(document.querySelectorAll('.hotspot'));
+      hotspots.forEach(h => {
+        const visibleOn = h.getAttribute('data-visible-on');
+        const shouldShow = visibleOn ? (visibleOn === currentSkyId) : true;
+        h.setAttribute('visible', shouldShow);
+        if (shouldShow) {
+          h.setAttribute('position', h.getAttribute('position-bak'));
+          // Prefetch the image(s) for the hotspot that is now visible so
+          // downloads happen while the user may interact with the view.
+          const tgt = h.getAttribute('data-target');
+          if (tgt) prefetchSkyImages(tgt);
+        }
+        else
+          h.setAttribute('position', '999');
+      });
+      document.getElementById('hotspots').setAttribute('rotation', `0 ${-phiStart} 0`);
+    }
+
+    function progressiveSkyLoad(imgId, phiStart) {
+      const sky = document.getElementById('sky');
+      const lowResSrc = `room/${imgId.substring(1)}-480.jpg`;
+      //const midResSrc = `room/${imgId.substring(1)}-1080.jpg`;
+      const hiResSrc = `room/${imgId.substring(1)}-3040.jpg`;
+      
+      // Ensure we only set phi-start when an image is actually applied to the sky.
+      let firstApplied = false;
+
+      function applySrcAndSync(src, setPhi) {
+        const mesh = sky.getObject3D && sky.getObject3D('mesh');
+        const cachedImg = imageCache[src];
+
+        // Helper to finalize after texture applied
+        function finalizeApplied(didApply) {
+          if (setPhi && !firstApplied && didApply) {
+            sky.setAttribute('phi-start', phiStart);
+            firstApplied = true;
+          }
+          updateHotspots(imgId, phiStart);
+        }
+
+        // If mesh exists, check what's currently applied and avoid re-applying the same src
+        if (mesh && mesh.material && mesh.material.map && mesh.material.map.image && mesh.material.map.image.src) {
+          const currentSrc = mesh.material.map.image.src;
+          if (currentSrc.indexOf(src) !== -1) {
+            // already applied
+            finalizeApplied(true);
+            return;
+          }
+        }
+
+        // set the attribute and poll until three reports the texture image is applied.
+        sky.setAttribute('src', src);
+        let checks = 0;
+        const maxChecks = 60; // ~1s at 60fps
+        function checkApplied() {
+          const mesh2 = sky.getObject3D && sky.getObject3D('mesh');
+          const applied = mesh2 && mesh2.material && mesh2.material.map && mesh2.material.map.image && mesh2.material.map.image.src && mesh2.material.map.image.src.indexOf(src) !== -1;
+          if (applied || checks++ > maxChecks) {
+            finalizeApplied(applied);
+          } else {
+            requestAnimationFrame(checkApplied);
+          }
+        }
+        requestAnimationFrame(checkApplied);
+      }
+
+      // Try low resolution first (preferred for quick visual), then hi-res will replace it.
+      if (imageCache[lowResSrc]) {
+        applySrcAndSync(lowResSrc, true);
+      } else {
+        const img = new Image();
+        img.src = lowResSrc;
+        img.onload = () => {
+          imageCache[lowResSrc] = img;
+          applySrcAndSync(lowResSrc, true);
+        };
+        img.onerror = () => {
+          // ignore and let hi-res try to fill in
+        };
+      }
+
+      // Always kick off hi-res load. When it becomes available, apply it but don't re-set phi-start
+      if (imageCache[hiResSrc]) {
+        // If mid never applied, ensure phi is synced using hi-res
+        applySrcAndSync(hiResSrc, !firstApplied);
+      } else {
+        const imgHi = new Image();
+        imgHi.src = hiResSrc;
+        imgHi.onload = () => {
+          imageCache[hiResSrc] = imgHi;
+          // replace with hi-res but avoid changing phi-start if already set
+          applySrcAndSync(hiResSrc, !firstApplied);
+        };
+      }
+    }
+
+    // Start network loading of low/hi res images without applying them.
+    function prefetchSkyImages(imgId) {
+      const lowResSrc = `room/${imgId.substring(1)}-480.jpg`;
+      if (!imageCache[lowResSrc]) {
+        const img = new Image();
+        img.src = lowResSrc;
+        img.onload = () => { imageCache[lowResSrc] = img; };
+        img.onerror = () => {};
+      }
+      /*
+      const hiResSrc = `room/${imgId.substring(1)}-3040.jpg`;
+      if (!imageCache[hiResSrc]) {
+        const imgHi = new Image();
+        imgHi.src = hiResSrc;
+        imgHi.onload = () => { imageCache[hiResSrc] = imgHi; };
+        imgHi.onerror = () => {};
+      }*/
+    }
+
+    // Wait until the A-Frame scene is fully loaded and objects are ready
+    const scene = document.querySelector('a-scene');
+    scene.addEventListener('loaded', function () {
+      const cameraEl = document.getElementById('mainCamera');
+      // Try to get the three.js camera; fall back to the entity's object3D
+      const camera = cameraEl.getObject3D('camera') || cameraEl.object3D;
+
+      scene.addEventListener('click', function (e) {
+        // Only handle left mouse button when available
+        if (typeof e.button === 'number' && e.button !== 0) return;
+
+        // Get normalized device coordinates (NDC) for mouse.
+        // If clientX/Y are not available (some A-Frame click events), fall back to center.
+        const clientX = (typeof e.clientX === 'number') ? e.clientX : window.innerWidth / 2;
+        const clientY = (typeof e.clientY === 'number') ? e.clientY : window.innerHeight / 2;
+
+        const mouse = new THREE.Vector2();
+        mouse.x = (clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (clientY / window.innerHeight) * 2 + 1;
+
+        // Set up raycaster
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        // Collect all clickable objects (their Object3D roots)
+        const hotspotEls = Array.from(document.querySelectorAll('.hotspot'));
+        const object3Ds = hotspotEls.map(el => el.object3D);
+
+        // Intersect with all hotspots
+        const intersects = raycaster.intersectObjects(object3Ds, true);
+
+        if (intersects.length > 0) {
+          // Find the topmost A-Frame element hit by checking the intersected object's .el
+          let targetEl = null;
+          for (let i = 0; i < intersects.length; i++) {
+            const hit = intersects[i];
+            // three.js objects created by A-Frame expose an `.el` back-reference
+            const elHit = hit.object.el || (hit.object.parent && hit.object.parent.el);
+            if (elHit && elHit.classList && elHit.classList.contains('hotspot')) {
+              targetEl = elHit;
+              break;
+            }
+          }
+
+          if (targetEl) {
+            const imgId = targetEl.getAttribute('data-target');
+            const imgSrc = 'room/' + targetEl.getAttribute('data-target').substring(1) + '.jpg';
+            const phiStart = targetEl.getAttribute('target-phi-start');
+            if (imgId && targetEl.getAttribute('visible')) {
+              // Animate the hotspot for feedback
+              try {
+                // Resolve position object whether A-Frame returns a string or an object
+                let pos = targetEl.getAttribute('position');
+                if (typeof pos === 'string') {
+                  const p = pos.split(' ').map(parseFloat);
+                  pos = { x: p[0], y: p[1], z: p[2] };
+                }
+
+                const rb = parseFloat(targetEl.getAttribute('radius-bottom') || 0);
+                const rt = parseFloat(targetEl.getAttribute('radius-top') || 0);
+
+                // If radius-bottom === 0 the cone points down (lift upward).
+                // If radius-top === 0 the cone points up (lift downward).
+                let deltaY = 0.1;
+                if (!isNaN(rb) && rb === 0) deltaY = 0.1;
+                else if (!isNaN(rt) && rt === 0) deltaY = -0.1;
+
+                const targetY = (pos && typeof pos.y === 'number') ? (pos.y + deltaY) : deltaY;
+                const toPos = `${pos.x} ${targetY} ${pos.z}`;
+
+                // Use A-Frame animation component for a short lift and return (alternate)
+                targetEl.setAttribute('animation__lift', `property: position; to: ${toPos}; dur: 100; easing: easeInOutQuad; dir: alternate; loop: 1`);
+
+                // Clean up animation attribute and restore original position after animation finishes (~200ms)
+                setTimeout(() => {
+                  // Ensure original stored backup position is restored if present
+                  const bak = targetEl.getAttribute('position-bak');
+                  if (bak) targetEl.setAttribute('position', bak);
+                  targetEl.removeAttribute('animation__lift');
+                }, 220);
+              } catch (err) {
+                console.warn('Hotspot animation failed', err);
+              }
+
+              setTimeout(() => progressiveSkyLoad(imgId, phiStart), 200);
+            }
+          }
+        }
+      });
+
+      // Initialize hotspot visibility according to the current sky
+      const initialSky = document.getElementById('sky').getAttribute('src');
+      Array.from(document.querySelectorAll('.hotspot')).forEach(h => {
+          h.setAttribute('position-bak', h.getAttribute('position').x + ' ' + h.getAttribute('position').y + ' ' + h.getAttribute('position').z);
+      });
+      progressiveSkyLoad("#e", "0");
+      updateHotspots(initialSky);
+    });
+  </script>
+  <script>
+    (function(){
+      const cameraEl = document.getElementById('mainCamera');
+      if(!cameraEl) return;
+
+      let pinchActive = false;
+      let startDist = 0;
+      let startZoom = cameraEl.getAttribute('camera')?.zoom || 1;
+      const minZoom = 0.5;
+      const maxZoom = 2;
+
+      const getDist = (t1, t2) => Math.hypot(t2.pageX - t1.pageX, t2.pageY - t1.pageY);
+
+      function onTouchStart(e){
+        if(e.touches && e.touches.length === 2){
+          pinchActive = true;
+          startDist = getDist(e.touches[0], e.touches[1]);
+          const cam = cameraEl.getAttribute('camera') || {};
+          startZoom = cam.zoom || startZoom;
+        }
+      }
+
+      function onTouchMove(e){
+        if(!pinchActive) return;
+        if(!e.touches || e.touches.length !== 2) return;
+        // prevent the browser pinch-zoom while we handle the gesture
+        e.preventDefault();
+        const d = getDist(e.touches[0], e.touches[1]);
+        const scale = d / startDist;
+        let newZoom = startZoom * scale;
+        if(newZoom < minZoom) newZoom = minZoom;
+        if(newZoom > maxZoom) newZoom = maxZoom;
+        const cam = cameraEl.getAttribute('camera') || {};
+        cam.zoom = newZoom;
+        cameraEl.setAttribute('camera', cam);
+      }
+
+      function onTouchEnd(e){
+        if(!e.touches || e.touches.length < 2) pinchActive = false;
+      }
+
+      window.addEventListener('touchstart', onTouchStart, {passive:false});
+      window.addEventListener('touchmove', onTouchMove, {passive:false});
+      window.addEventListener('touchend', onTouchEnd);
+      window.addEventListener('touchcancel', onTouchEnd);
+    })();
+  </script>
+</body>
+</html>
