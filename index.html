@@ -497,6 +497,16 @@
           }
 
           if (targetEl) {
+            // If hotspots have been globally disabled for editing, ignore clicks.
+            if (window.__hotspotsDisabled) {
+              // If the clicked hotspot is the one currently being edited, silently ignore
+              // so releasing a drag doesn't spam the console with the global tip.
+              if (targetEl.classList && targetEl.classList.contains('editable')) {
+                return;
+              }
+              console.log('All hotspots are disabled. Call lockHotspot() to re-enable.');
+              return;
+            }
             const imgId = targetEl.getAttribute('data-target');
             const imgSrc = 'room/' + targetEl.getAttribute('data-target').substring(1) + '.jpg';
             const phiStart = targetEl.getAttribute('target-phi-start');
@@ -596,6 +606,156 @@
       window.addEventListener('touchmove', onTouchMove, {passive:false});
       window.addEventListener('touchend', onTouchEnd);
       window.addEventListener('touchcancel', onTouchEnd);
+    })();
+  </script>
+  <script>
+    // Devtools helper: unlock a hotspot for dragging from the console.
+    // Usage: unlockHotspot('#e_k') or unlockHotspot('e_k')
+    (function(){
+      function normalizeId(id){
+        if(!id) return null;
+        if(id.startsWith('#')) return id.substring(1);
+        return id;
+      }
+
+      window.unlockHotspot = function(id){
+        const nid = normalizeId(id);
+        const el = document.getElementById(nid);
+        if(!el){ console.warn('unlockHotspot: element not found', id); return; }
+        // If another hotspot is already unlocked, require locking first
+        if(window.__editableHotspot && window.__editableHotspot !== el){
+          console.warn('Another hotspot is already unlocked for editing. Call lockHotspot() first to re-enable hotspots.');
+          return;
+        }
+        // mark this editable and disable others
+        document.querySelectorAll('.hotspot').forEach(h=>{
+          h.classList.remove('editable');
+          if(h !== el) h.classList.add('disabled-for-edit');
+        });
+        el.classList.add('editable');
+        window.__editableHotspot = el;
+        window.__hotspotsDisabled = true;
+        console.log('Unlocked hotspot:', el.id || el);
+        console.log('All hotspots are disabled. Call lockHotspot() to re-enable.');
+        console.log('Drag hotspot to show new position.');
+        console.log('Drag + ArrowUp/ArrowDown to adjust distance from camera.');
+      };
+
+      window.lockHotspot = function(){
+        document.querySelectorAll('.hotspot').forEach(h=>{
+          h.classList.remove('editable');
+          h.classList.remove('disabled-for-edit');
+        });
+        if(window.__editableHotspot) console.log('Locked hotspot:', window.__editableHotspot.id || window.__editableHotspot);
+        window.__editableHotspot = null;
+        window.__hotspotsDisabled = false;
+      };
+
+      const scene = document.querySelector('a-scene');
+      if(!scene) return;
+
+      scene.addEventListener('loaded', function(){
+        const camEl = document.getElementById('mainCamera');
+        const camera = (camEl && (camEl.getObject3D('camera') || camEl.object3D));
+        const canvas = scene.canvas;
+        if(!canvas){
+          console.warn('unlockHotspot: scene canvas not ready');
+          return;
+        }
+
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let dragging = false;
+        let dragPlane = null;
+        let dragWorldOffset = new THREE.Vector3();
+        const MIN_DRAG_DISTANCE = 0.5;
+        const MAX_DRAG_DISTANCE = 15;
+
+        function ndcFromEvent(e, out){
+          const clientX = (e.clientX !== undefined) ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
+          const clientY = (e.clientY !== undefined) ? e.clientY : (e.touches && e.touches[0] && e.touches[0].clientY);
+          out.x = (clientX / window.innerWidth) * 2 - 1;
+          out.y = - (clientY / window.innerHeight) * 2 + 1;
+          return {clientX, clientY};
+        }
+
+        function onPointerDown(e){
+          if(!window.__editableHotspot) return;
+          const ids = ndcFromEvent(e, mouse);
+          if(!ids.clientX) return;
+          raycaster.setFromCamera(mouse, camera);
+          const obj = window.__editableHotspot.object3D;
+          const intersects = raycaster.intersectObject(obj, true);
+          if(intersects.length === 0) return;
+          dragging = true;
+          // compute and store the initial distance from camera to hotspot so we can
+          // move it along the camera ray while preserving that distance
+          const hotspotWorldPos = new THREE.Vector3();
+          window.__editableHotspot.object3D.getWorldPosition(hotspotWorldPos);
+          const camWorldPos = new THREE.Vector3();
+          if(camera.getWorldPosition) camera.getWorldPosition(camWorldPos);
+          else camEl.object3D.getWorldPosition(camWorldPos);
+          window.__editableHotspotInitialDistance = hotspotWorldPos.distanceTo(camWorldPos);
+          e.preventDefault();
+        }
+
+        function onPointerMove(e){
+          if(!dragging || !window.__editableHotspot) return;
+          ndcFromEvent(e, mouse);
+          raycaster.setFromCamera(mouse, camera);
+          // Move hotspot along the camera ray at the stored distance so
+          // it doesn't get closer/further while dragging.
+          const origin = raycaster.ray.origin.clone();
+          const dir = raycaster.ray.direction.clone().normalize();
+          const dist = Math.max(MIN_DRAG_DISTANCE, Math.min(MAX_DRAG_DISTANCE, (window.__editableHotspotInitialDistance || 1)));
+          const newWorldPos = origin.add(dir.multiplyScalar(dist));
+          const parent = window.__editableHotspot.object3D.parent;
+          parent.worldToLocal(newWorldPos);
+          window.__editableHotspot.setAttribute('position', `${newWorldPos.x.toFixed(3)} ${newWorldPos.y.toFixed(3)} ${newWorldPos.z.toFixed(3)}`);
+        }
+
+        function onPointerUp(e){
+          if(!dragging) return;
+          dragging = false;
+          if(!window.__editableHotspot) return;
+          const pos = window.__editableHotspot.getAttribute('position');
+          console.log('position:', pos.x, pos.y, pos.z);
+          // clear temporary distance storage
+          delete window.__editableHotspotInitialDistance;
+        }
+
+        // Keyboard handler: while dragging, ArrowUp increases distance, ArrowDown decreases it.
+        function onKeyDown(e){
+          if(!dragging || !window.__editableHotspot) return;
+          if(e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+          // adjust by 0.1 units per press
+          const step = 0.1;
+          let cur = window.__editableHotspotInitialDistance || 1;
+          if(e.key === 'ArrowUp') cur = Math.min(MAX_DRAG_DISTANCE, cur + step);
+          if(e.key === 'ArrowDown') cur = Math.max(MIN_DRAG_DISTANCE, cur - step);
+          window.__editableHotspotInitialDistance = cur;
+          // immediately update position along current camera ray using last mouse NDC
+          raycaster.setFromCamera(mouse, camera);
+          const origin = raycaster.ray.origin.clone();
+          const dir = raycaster.ray.direction.clone().normalize();
+          const newWorldPos = origin.add(dir.multiplyScalar(cur));
+          const parent = window.__editableHotspot.object3D.parent;
+          parent.worldToLocal(newWorldPos);
+          window.__editableHotspot.setAttribute('position', `${newWorldPos.x.toFixed(3)} ${newWorldPos.y.toFixed(3)} ${newWorldPos.z.toFixed(3)}`);
+          e.preventDefault();
+        }
+
+        window.addEventListener('keydown', onKeyDown);
+
+        canvas.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+
+        // touch fallbacks
+        canvas.addEventListener('touchstart', onPointerDown, {passive:false});
+        window.addEventListener('touchmove', onPointerMove, {passive:false});
+        window.addEventListener('touchend', onPointerUp);
+      });
     })();
   </script>
 </body>
